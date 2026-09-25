@@ -1112,6 +1112,9 @@ void encode(JSOBJ obj, JSONObjectEncoder *enc, const char *name,
 
   case JT_UTF8: {
     value = enc->getStringValue(obj, &tc, &szlen);
+    if (value == NULL && !enc->errorMsg) {
+      enc->errorMsg = "String encoding callback returned NULL";
+    }
     if (enc->errorMsg) {
       enc->endTypeContext(obj, &tc);
       return;
